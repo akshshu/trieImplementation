@@ -62,36 +62,40 @@ struct trie
         }
         root->end--;
     }
+    bool prefix(string s, trie *root)
+    {
+        for (char x : s)
+        {
+            int i = x - 'a';
+            if (!root->child[i] || root->child[i]->count == 0)
+                return false;
+            root = root->child[i];
+        }
+        return (root->count > 0);
+    }
 };
 int main()
 {
     trie *root = new trie();
     root->val = '/';
     root->addEl("asd", root);
-    root->addEl("asda", root);
-    root->addEl("asdaz", root);
-
-    cout << root->search("asda", root);
-
-    cout << root->search("asd1", root);
-    root->deleteEl("asdpz", root);
-    cout << "\n";
-    cout << root->search("asdz", root);
+    cout << root->prefix("as", root);
     cout << endl
          << root->search("asd", root);
     root->deleteEl("asd", root);
     cout << endl
+         << root->prefix("as", root);
+    cout << endl
+         << root->search("asd", root);
+    root->addEl("asdp", root);
+    cout << endl
+         << root->prefix("as", root);
+    cout << endl
          << root->search("asd", root);
     cout << endl
-         << root->search("asda", root);
-    root->deleteEl("asda", root);
+         << root->prefix("asdp", root);
     cout << endl
-         << root->search("asda", root);
-    cout << endl
-         << root->search("asdaz", root);
-    root->deleteEl("asdaz", root);
-    cout << endl
-         << root->search("asda", root);
+         << root->search("asdp", root);
 
     return 0;
 }
